@@ -1,0 +1,14 @@
+package enums;
+
+public enum VacationType {
+    SICK_LEAVE,
+    PAID_LEAVE,
+    UNPAID_LEAVE,
+    MATERNITY_LEAVE,
+    PATERNITY_LEAVE,
+    PARENTAL_LEAVE,
+    VACATION_LEAVE,
+    STUDY_LEAVE,
+    SABBATICAL_LEAVE,
+    OTHER
+}
