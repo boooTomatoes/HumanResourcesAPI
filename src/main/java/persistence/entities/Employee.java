@@ -1,9 +1,8 @@
 package persistence.entities;
 
-import enums.JobTitle;
+
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -12,7 +11,7 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee extends BaseEntity {
+public class Employee extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,25 +27,34 @@ public class Employee extends BaseEntity {
     @ManyToOne
     private Employee manager;
 
-    @OneToMany(mappedBy = "manager")
+    @OneToMany(mappedBy = "manager",fetch = FetchType.LAZY)
     private Set<Employee> employees= new HashSet<>();
 
     @OneToOne(mappedBy = "manager")
     private Department managedDepartment;
 
     @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee",fetch = FetchType.LAZY)
     private Set<Vacation> vacations= new HashSet<>();
 
     @ManyToOne
     private Job job;
 
+    @ManyToMany
+    @JoinTable(
+            name = "employee_project",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id"))
+    private Set<Project> projects = new HashSet<>();
+
     @Transient
     private String departmentName;
     @Transient
     private String managerName;
+    private boolean currentlyEmployed;
 
     @PostLoad
     public void postLoad() {

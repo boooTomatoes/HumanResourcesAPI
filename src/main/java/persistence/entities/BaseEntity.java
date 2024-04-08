@@ -1,4 +1,6 @@
 package persistence.entities;
 
-public class BaseEntity {
+import java.io.Serializable;
+
+public class BaseEntity  implements Serializable {
 }

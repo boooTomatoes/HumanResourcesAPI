@@ -14,17 +14,18 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Department {
+public class Department extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String location;
 
     @OneToOne
     private Employee manager;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department",fetch = FetchType.LAZY)
     private Set<Employee> employees= new HashSet<>();
+
+
 
 }
