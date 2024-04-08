@@ -10,6 +10,8 @@ import persistence.repository.EmployeeRepository;
 import persistence.util.TransactionUtil;
 
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -27,7 +29,8 @@ public class EmployeeService extends BaseService<Employee, EmployeeDTO, Long> {
 
     public Set<ProjectDTO> findProjectsByEmployeeId(Long employeeId) {
         return TransactionUtil.doInTransaction(entityManager -> {
-            return (Set<ProjectDTO>) ProjectMapper.INSTANCE.collectionToDto(EmployeeRepository.getInstance().findProjectsByEmployeeId(employeeId, entityManager));
+            Collection<ProjectDTO> projectDTOS = ProjectMapper.INSTANCE.collectionToDto(EmployeeRepository.getInstance().findProjectsByEmployeeId(employeeId, entityManager));
+            return new HashSet<>(projectDTOS);
         });
     }
 

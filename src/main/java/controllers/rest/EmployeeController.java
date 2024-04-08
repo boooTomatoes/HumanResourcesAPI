@@ -6,6 +6,7 @@ import persistence.dto.EmployeeDTO;
 import persistence.dto.ProjectDTO;
 import service.EmployeeService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -29,8 +30,9 @@ public class EmployeeController {
     @GET
     @Path("/{id}/projects")
     public Response getProjectsByEmployeeId(@PathParam("id") Long id) {
-        Set<ProjectDTO> employeeDTOList = EmployeeService.getInstance().findProjectsByEmployeeId(id);
-        return Response.ok(employeeDTOList).build();
+        Set<ProjectDTO> employeeDTOSet = EmployeeService.getInstance().findProjectsByEmployeeId(id);
+        List<ProjectDTO> projectDTOList = new ArrayList<>(employeeDTOSet);
+        return Response.ok(projectDTOList).build();
     }
 
 

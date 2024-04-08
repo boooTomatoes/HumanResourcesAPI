@@ -43,7 +43,7 @@ public class Employee extends BaseEntity{
     @ManyToOne
     private Job job;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "employee_project",
             joinColumns = @JoinColumn(name = "employee_id"),
