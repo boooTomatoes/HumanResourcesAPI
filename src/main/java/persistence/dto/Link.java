@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressDTO extends BaseDTO{
-    private String street;
-    private String country;
-    private String city;
-    private String zipCode;
+public class Link implements Serializable {
+
+    private String rel;
+    private String href;
+
 }

@@ -83,4 +83,12 @@ public class EmployeeService extends BaseService<Employee, EmployeeDTO, Long> {
             return List.copyOf(employeeDTOS);
         });
     }
+
+    public boolean deleteFromCurrent(Long id) {
+       return TransactionUtil.doInTransaction(entityManager -> {
+            Employee employee =employeeRepository.findById(id, entityManager);
+            employee.setCurrentlyEmployed(false);
+            return employeeRepository.update(employee, entityManager);
+        });
+    }
 }

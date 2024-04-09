@@ -40,8 +40,15 @@ public class AttendanceController {
 
     @GET
     @Path("/{id}")
-    public Response getAttendance(@PathParam("id") Long id,@QueryParam("date") String date) {
-        return Response.ok().entity(AttendanceService.getInstance().getAttendance(id,date)).build();
+    public Response getAttendance(@PathParam("id") Long id,@QueryParam("date") String date,@QueryParam("offset") Integer offset,@QueryParam("limit") Integer limit) {
+        if(date == null || date.isEmpty()){
+            if(offset==null)
+                offset=0;
+            if(limit==null)
+                limit=10;
+            return Response.ok().entity(AttendanceService.getInstance().getAttendance(id,offset,limit)).build();
+        }
+        else return Response.ok().entity(AttendanceService.getInstance().getAttendance(id,date)).build();
 
     }
 

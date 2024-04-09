@@ -3,9 +3,12 @@ package persistence.repository;
 import jakarta.persistence.EntityManager;
 import persistence.entities.AttendanceSheet;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 public class AttendanceRepository extends GenericRepository<AttendanceSheet,Long> {
     private AttendanceRepository() {
@@ -37,12 +40,25 @@ public class AttendanceRepository extends GenericRepository<AttendanceSheet,Long
     }
 
     public AttendanceSheet findByEmployeeIdAndDate(Long id, String date, EntityManager entityManager) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.parse(date, formatter);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date localDate = null;
+        try {
+            localDate = formatter.parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(localDate);
         return entityManager.createQuery("SELECT a FROM AttendanceSheet a WHERE a.employee.id = :id AND a.date = :date", AttendanceSheet.class)
                 .setParameter("id", id)
                 .setParameter("date", localDate)
                 .getSingleResult();
+    }
+
+    public List<AttendanceSheet> findByEmployeeId(Long id, EntityManager entityManager, int offset, int limit) {
+        return entityManager.createQuery("SELECT a FROM AttendanceSheet a WHERE a.employee.id = :id ORDER BY a.date DESC", AttendanceSheet.class)
+                .setParameter("id", id)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
     }
 }

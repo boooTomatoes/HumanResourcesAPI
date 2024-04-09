@@ -7,6 +7,8 @@ import persistence.repository.AttendanceRepository;
 import persistence.repository.EmployeeRepository;
 import persistence.util.TransactionUtil;
 
+import java.util.List;
+
 
 public class AttendanceService extends BaseService<AttendanceSheet, AttendanceDTO,Long>{
     private AttendanceService() {
@@ -40,4 +42,12 @@ public class AttendanceService extends BaseService<AttendanceSheet, AttendanceDT
             return AttendanceMapper.INSTANCE.toDTO(AttendanceRepository.getInstance().findByEmployeeIdAndDate(id, date, entityManager));
         });
     }
+
+    public List<AttendanceDTO> getAttendance(Long id, int offset, int limit) {
+        return (List<AttendanceDTO>) TransactionUtil.doInTransaction(entityManager -> {
+            return AttendanceMapper.INSTANCE.collectionToDto(AttendanceRepository.getInstance().findByEmployeeId(id, entityManager, offset, limit));
+        });
+    }
+
+
 }

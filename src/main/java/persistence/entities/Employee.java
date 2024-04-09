@@ -52,7 +52,11 @@ public class Employee extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private Set<Project> projects = new HashSet<>();
 
-    @DefaultValue("true")
     private boolean currentlyEmployed;
+
+    @PrePersist
+    public void prePersist() {
+        this.currentlyEmployed = true;
+    }
 
 }

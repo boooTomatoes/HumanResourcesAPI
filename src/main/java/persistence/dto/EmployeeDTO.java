@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,4 +36,5 @@ public class EmployeeDTO extends BaseDTO{
     private Long departmentId;
     private Long managedDepartmentId; // assuming you want to expose the ID of the managed department
     private Long jobId;
+    List<Link> links;
 }
