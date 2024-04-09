@@ -7,9 +7,8 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import service.AttendanceService;
+import utils.Authorization;
 
-import java.util.Base64;
-import java.util.Date;
 
 @Path("/attendance")
 public class AttendanceController {
@@ -55,10 +54,7 @@ public class AttendanceController {
 
 
     private boolean checkAuthorization(String authorizationHeader, Long id) {
-
-        String base64Credentials = authorizationHeader.substring("Basic".length()).trim();
-        String credentials = new String(Base64.getDecoder().decode(base64Credentials));
-        final String[] values = credentials.split(":", 2);
+        String[] values=Authorization.decode(authorizationHeader);
         return AttendanceService.getInstance().checkAuthentication(values[0], values[1], id);
     }
 

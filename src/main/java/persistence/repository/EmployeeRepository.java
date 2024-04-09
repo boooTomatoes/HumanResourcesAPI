@@ -49,4 +49,11 @@ public class EmployeeRepository extends GenericRepository<Employee, Long>{
             return Collections.emptyList();
         }
     }
+
+    public Employee getEmployee(String username, String password, EntityManager entityManager) {
+        return entityManager.createQuery("SELECT e FROM Employee e WHERE e.username = :username AND e.password = :password", Employee.class)
+                .setParameter("username", username)
+                .setParameter("password", password)
+                .getSingleResult();
+    }
 }

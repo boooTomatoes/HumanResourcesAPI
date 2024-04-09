@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@XmlRootElement
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorMessage {

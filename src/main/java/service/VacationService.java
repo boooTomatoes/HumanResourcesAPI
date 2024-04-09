@@ -1,5 +1,6 @@
 package service;
 
+import enums.JobTitle;
 import enums.VacationStatus;
 import mappers.VacationMapper;
 import persistence.dto.VacationDTO;
@@ -8,7 +9,9 @@ import persistence.entities.Vacation;
 import persistence.repository.EmployeeRepository;
 import persistence.repository.VacationRepository;
 import persistence.util.TransactionUtil;
+import utils.Authorization;
 
+import java.util.Base64;
 import java.util.List;
 
 public class VacationService extends BaseService<Vacation, VacationDTO, Long> {
@@ -45,6 +48,28 @@ public class VacationService extends BaseService<Vacation, VacationDTO, Long> {
     public List<VacationDTO> findVacationsByEmployeeId(Long id) {
         return (List<VacationDTO>) TransactionUtil.doInTransaction(entityManager -> {
             return VacationMapper.INSTANCE.collectionToDto(VacationRepository.getInstance().findByEmployeeId(id, entityManager));
+        });
+    }
+
+
+    public boolean checkAuthorization(String headerString) {
+        String[] values =Authorization.decode(headerString);
+        String username = values[0];
+        String password = values[1];
+        return TransactionUtil.doInTransaction(entityManager -> {
+            Employee emp = EmployeeRepository.getInstance().getEmployee(username, password, entityManager);
+            if (emp == null) {
+                return false;
+            } else
+                return (emp.getJob().getTitle().equals(JobTitle.MANAGER) || emp.getJob().getTitle().equals(JobTitle.HUMAN_RESOURCES));
+        });
+    }
+
+    public boolean processVacation(String status, Long id) {
+        return TransactionUtil.doInTransaction(entityManager -> {
+            Vacation vacation = VacationRepository.getInstance().findById(id, entityManager);
+            vacation.setStatus(VacationStatus.valueOf(status));
+            return VacationRepository.getInstance().update(vacation, entityManager);
         });
     }
 }
