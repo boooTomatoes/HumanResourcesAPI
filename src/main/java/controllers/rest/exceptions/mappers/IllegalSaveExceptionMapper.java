@@ -3,7 +3,9 @@ package controllers.rest.exceptions.mappers;
 import controllers.rest.exceptions.IllegalSaveException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
+@Provider
 public class IllegalSaveExceptionMapper implements ExceptionMapper<IllegalSaveException>{
     @Override
     public Response toResponse(IllegalSaveException exception) {

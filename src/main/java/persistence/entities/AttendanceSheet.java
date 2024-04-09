@@ -2,11 +2,14 @@ package persistence.entities;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
+
 import java.util.Date;
-
+@Getter
 @Entity
+@Setter
 public class AttendanceSheet extends BaseEntity{
 
     @Id
@@ -24,5 +27,11 @@ public class AttendanceSheet extends BaseEntity{
     private Date checkInTime;
     @Temporal(TemporalType.TIMESTAMP)
     private Date checkOutTime;
+
+    @PrePersist
+    public void prePersist() {
+        this.date = new Date();
+        this.checkInTime = new Date();
+    }
 
 }

@@ -1,5 +1,7 @@
 package service;
 
+import controllers.rest.exceptions.IllegalDeleteException;
+import controllers.rest.exceptions.IllegalSaveException;
 import mappers.BaseMapper;
 import persistence.dto.BaseDTO;
 import persistence.entities.BaseEntity;
@@ -34,10 +36,15 @@ public class BaseService <ENTITY extends BaseEntity,DTO extends BaseDTO,ID> {
 
 
     public boolean save(DTO dto) {
-        return TransactionUtil.doInTransaction(entityManager -> {
-            ENTITY entity = baseMapper.toEntity(dto);
-            return genericRepository.save(entity, entityManager);
-        });
+        try {
+            return TransactionUtil.doInTransaction(entityManager -> {
+                ENTITY entity = baseMapper.toEntity(dto);
+                return genericRepository.save(entity, entityManager);
+            });
+        }
+        catch (Exception e){
+            throw new IllegalSaveException("invalid save operation on entity: " + dto.getClass().getSimpleName(),e.getMessage());
+        }
     }
 
     public boolean update(DTO dto) {
@@ -48,10 +55,15 @@ public class BaseService <ENTITY extends BaseEntity,DTO extends BaseDTO,ID> {
     }
 
     public boolean delete(DTO dto) {
-        return TransactionUtil.doInTransaction(entityManager -> {
-            ENTITY entity = baseMapper.toEntity(dto);
-            return genericRepository.delete(entity, entityManager);
-        });
+       try {
+           return TransactionUtil.doInTransaction(entityManager -> {
+               ENTITY entity = baseMapper.toEntity(dto);
+               return genericRepository.delete(entity, entityManager);
+           });
+       }
+    catch (Exception e){
+                throw new IllegalDeleteException("invalid save operation on entity: " + dto.getClass().getSimpleName()+", "+e.getMessage());
+             }
     }
 
     public List<DTO> findAll() {
@@ -63,9 +75,14 @@ public class BaseService <ENTITY extends BaseEntity,DTO extends BaseDTO,ID> {
 
 
     public boolean delete(ID id) {
-        return TransactionUtil.doInTransaction(entityManager -> {
-            ENTITY entity = genericRepository.findById(id, entityManager);
-            return genericRepository.delete(entity, entityManager);
-        });
+       try {
+           return TransactionUtil.doInTransaction(entityManager -> {
+               ENTITY entity = genericRepository.findById(id, entityManager);
+               return genericRepository.delete(entity, entityManager);
+           });
+       }
+         catch (Exception e){
+              throw new IllegalDeleteException("invalid delete operation on entity: " + e.getMessage());
+         }
     }
 }

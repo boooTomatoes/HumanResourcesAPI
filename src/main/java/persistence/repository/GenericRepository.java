@@ -1,5 +1,7 @@
 package persistence.repository;
 
+import controllers.rest.exceptions.IllegalDeleteException;
+import controllers.rest.exceptions.IllegalSaveException;
 import controllers.rest.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityManager;
 
@@ -54,7 +56,7 @@ public class GenericRepository<T extends BaseEntity, ID> {
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return false;
+            throw new IllegalSaveException("invalid save operation on entity: " + entity.getClass().getSimpleName(), e.getMessage());
         }
     }
 
@@ -74,7 +76,7 @@ public class GenericRepository<T extends BaseEntity, ID> {
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return false;
+            throw new IllegalDeleteException("invalid delete operation on entity: " + entity.getClass().getSimpleName());
         }
     }
 
