@@ -62,6 +62,10 @@ public class BaseService <ENTITY extends BaseEntity,DTO extends BaseDTO,ID> {
     }
 
 
-
-
+    public boolean delete(ID id) {
+        return TransactionUtil.doInTransaction(entityManager -> {
+            ENTITY entity = genericRepository.findById(id, entityManager);
+            return genericRepository.delete(entity, entityManager);
+        });
+    }
 }

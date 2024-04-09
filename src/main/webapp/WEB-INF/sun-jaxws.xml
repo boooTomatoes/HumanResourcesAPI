@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+    <endpoint name="EmployeeController"
+              implementation="controllers.soap.EmployeeController"
+              url-pattern="/soap/employeeController"/>
+    <endpoint name="DepartmentController"
+              implementation="controllers.soap.DepartmentController"
+              url-pattern="/soap/departmentController"/>
+<!--    <endpoint name="ProjectController"-->
+<!--                implementation="controllers.soap.ProjectController"-->
+<!--                url-pattern="/soap/projectController"/>-->
+<!--    <endpoint name="JobController"-->
+<!--                implementation="controllers.soap.JobController"-->
+<!--                url-pattern="/soap/jobController"/>-->
+
+</endpoints>

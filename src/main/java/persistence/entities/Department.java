@@ -20,7 +20,7 @@ public class Department extends BaseEntity {
     private Long id;
     private String name;
 
-    @OneToOne
+    @OneToOne(mappedBy = "managedDepartment")
     private Employee manager;
 
     @OneToMany(mappedBy = "department",fetch = FetchType.LAZY)

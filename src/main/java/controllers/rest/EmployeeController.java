@@ -1,7 +1,9 @@
 package controllers.rest;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
+import persistence.dto.DepartmentDTO;
 import persistence.dto.EmployeeDTO;
 import persistence.dto.ProjectDTO;
 import service.EmployeeService;
@@ -15,7 +17,7 @@ public class EmployeeController {
 
     @GET
     public Response getEmployees() {
-        List<EmployeeDTO> employeeDTOList = EmployeeService.getInstance().findAll();
+        List<EmployeeDTO> employeeDTOList = EmployeeService.getInstance().findAllWithEagerFetch();
         return Response.ok(employeeDTOList).build();
     }
 
@@ -23,7 +25,7 @@ public class EmployeeController {
     @Path("/{id}")
     public Response getEmployeeById(@PathParam("id") Long id) {
         EmployeeDTO employeeDTO = EmployeeService.getInstance().findById(id);
-        return Response.ok(employeeDTO).build();
+        return Response.status(Response.Status.OK).entity(employeeDTO).build();
     }
 
 
@@ -35,11 +37,32 @@ public class EmployeeController {
         return Response.ok(projectDTOList).build();
     }
 
+    @GET
+    @Path("/{id}/manager")
+    public Response getManagerByEmployeeId(@PathParam("id") Long id) {
+        EmployeeDTO employeeDTO = EmployeeService.getInstance().findManagerByEmployeeId(id);
+        return Response.ok(employeeDTO).build();
+    }
+
+    @GET
+    @Path("{id}/department")
+    public Response getDepartmentByEmployeeId(@PathParam("id") Long id) {
+        DepartmentDTO departmentDTO = EmployeeService.getInstance().findDepartmentByEmployeeId(id);
+        return Response.ok(departmentDTO).build();
+    }
+
+    @GET
+    @Path("/{managerId}/employees")
+    public Response getEmployeesByManagerId(@PathParam("managerId") Long managerId) {
+        List<EmployeeDTO> employeeDTOList = EmployeeService.getInstance().findEmployeesByManagerId(managerId);
+        return Response.ok(employeeDTOList).build();
+    }
+
 
     @POST
-    public Response createEmployee(EmployeeDTO employeeDTO) {
+    public Response createEmployee(@Valid EmployeeDTO employeeDTO) {
         EmployeeService.getInstance().save(employeeDTO);
-        return Response.ok().build();
+        return Response.status(Response.Status.CREATED).build();
     }
 
     @PUT
@@ -49,5 +72,12 @@ public class EmployeeController {
         EmployeeService.getInstance().update(employeeDTO);
         return Response.ok().build();
     }
+
+//    @DELETE
+//    @Path("/{id}")
+//    public Response deleteEmployee(@PathParam("id") Long id) {
+////        EmployeeService.getInstance().delete(id);
+////        return Response.ok().build();
+//    }
 
 }
