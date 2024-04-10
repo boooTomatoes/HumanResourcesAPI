@@ -68,7 +68,7 @@ Clone the project
 Install dependencies
 
 
-- Create databse user and set the username and password values in the persistence.xml.
+- Create database user and set the username and password values in the persistence.xml.
 - Create databse named HumanResources in your MySql Server.
 - Run your tomcat apache server and then change the configuration of tomcat in pom.xml.
 
