@@ -43,6 +43,13 @@ public class DepartmentController {
     }
 
     @POST
+    @Path("/{id}/manager/{employeeId}")
+    public Response setManagerByDepartmentId(@PathParam("id") Long id, @PathParam("employeeId") Long employeeId) {
+        DepartmentService.getInstance().setManagerforDepartment(id, employeeId);
+        return Response.ok().entity("Manager added to the department").build();
+    }
+
+    @POST
     public Response createDepartment(@Valid DepartmentDTO departmentDTO) {
         DepartmentService.getInstance().save(departmentDTO);
         return Response.ok().build();

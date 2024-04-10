@@ -7,8 +7,11 @@ import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.soap.SOAPBinding;
 import jakarta.xml.ws.BindingType;
+import persistence.dto.EmployeeDTO;
 import persistence.dto.JobDTO;
 import service.JobService;
+
+import java.util.List;
 
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
@@ -26,8 +29,8 @@ public class JobController {
     }
 
     @WebMethod
-    public JobDTO[] getEmployeesByJobId(@WebParam(name = "id") Long id) {
-        return JobService.getInstance().findEmployeesByJobId(id).toArray(new JobDTO[0]);
+    public List<EmployeeDTO> getEmployeesByJobId(@WebParam(name = "id") Long id) {
+        return JobService.getInstance().findEmployeesByJobId(id);
     }
 
     @WebMethod

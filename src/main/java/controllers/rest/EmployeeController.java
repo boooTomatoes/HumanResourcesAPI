@@ -21,8 +21,12 @@ public class EmployeeController {
     UriInfo uriInfo;
 
     @GET
-    public Response getEmployees(@DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("10") @QueryParam("limit") Integer limit) {
-        List<EmployeeDTO> employeeDTOList = EmployeeService.getInstance().getEmployeesWithPagination(offset, limit);
+    public Response getEmployees(@DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("10") @QueryParam("limit") Integer limit,@QueryParam("current") Boolean current) {
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+        if (current != null && current) {
+           employeeDTOList = EmployeeService.getInstance().findCurrentWithPagination(offset,limit);
+        }
+        employeeDTOList = EmployeeService.getInstance().getEmployeesWithPagination(offset, limit);
         List<Link> links = createLinks(offset, limit);
         List<Object> response = new ArrayList<>();
         response.add(employeeDTOList);

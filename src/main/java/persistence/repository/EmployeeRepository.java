@@ -63,4 +63,11 @@ public class EmployeeRepository extends GenericRepository<Employee, Long>{
                 .setParameter("password", password)
                 .getSingleResult();
     }
+
+    public Collection<Employee> findCurrentWithPagination(Integer offset, Integer limit, EntityManager entityManager) {
+        return entityManager.createQuery("SELECT e FROM Employee e WHERE e.currentlyEmployed = TRUE", Employee.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 }

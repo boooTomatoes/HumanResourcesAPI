@@ -9,6 +9,7 @@ import persistence.entities.Department;
 import persistence.entities.Employee;
 import persistence.repository.DepartmentRepository;
 
+import persistence.repository.EmployeeRepository;
 import persistence.util.TransactionUtil;
 
 import java.util.ArrayList;
@@ -39,6 +40,15 @@ public class DepartmentService extends BaseService<Department, DepartmentDTO,Lon
         return TransactionUtil.doInTransaction(entityManager -> {
             Department department = DepartmentRepository.getInstance().findById(id, entityManager);
             return EmployeeMapper.INSTANCE.toDTO(department.getManager());
+        });
+    }
+
+    public boolean setManagerforDepartment(Long id, Long employeeId) {
+        return TransactionUtil.doInTransaction(entityManager -> {
+            Department department = DepartmentRepository.getInstance().findById(id, entityManager);
+            Employee employee = EmployeeRepository.getInstance().findById(employeeId, entityManager);
+            department.setManager(employee);
+           return DepartmentRepository.getInstance().update(department, entityManager);
         });
     }
 }
