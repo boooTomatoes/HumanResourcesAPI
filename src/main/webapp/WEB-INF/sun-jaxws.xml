@@ -13,4 +13,19 @@
                 implementation="controllers.soap.JobController"
                 url-pattern="/soap/jobController"/>
 
+    <endpoint name="AttendanceController"
+                implementation="controllers.soap.AttendanceController"
+                url-pattern="/soap/attendanceController">
+        <handler-chains xmlns="https://jakarta.ee/xml/ns/jakartaee">
+            <handler-chain>
+                <handler>
+                    <handler-name>Authorization</handler-name>
+                    <handler-class>controllers.soap.ControllerAuthorizationHandler</handler-class>
+                </handler>
+            </handler-chain>
+        </handler-chains>
+    </endpoint>
+
+
+
 </endpoints>
