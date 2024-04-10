@@ -3,14 +3,14 @@
     <endpoint name="EmployeeController"
               implementation="controllers.soap.EmployeeController"
               url-pattern="/soap/employeeController"/>
-    <endpoint name="DepartmentController"
+    <endpoint name="DepartmentControllerTest"
               implementation="controllers.soap.DepartmentController"
               url-pattern="/soap/departmentController"/>
-<!--    <endpoint name="ProjectController"-->
-<!--                implementation="controllers.soap.ProjectController"-->
-<!--                url-pattern="/soap/projectController"/>-->
-<!--    <endpoint name="JobController"-->
-<!--                implementation="controllers.soap.JobController"-->
-<!--                url-pattern="/soap/jobController"/>-->
+    <endpoint name="ProjectController"
+                implementation="controllers.soap.ProjectController"
+                url-pattern="/soap/projectController"/>
+    <endpoint name="JobController"
+                implementation="controllers.soap.JobController"
+                url-pattern="/soap/jobController"/>
 
 </endpoints>

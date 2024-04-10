@@ -45,9 +45,9 @@ public class VacationService extends BaseService<Vacation, VacationDTO, Long> {
         });
     }
 
-    public List<VacationDTO> findVacationsByEmployeeId(Long id) {
+    public List<VacationDTO> findVacationsByEmployeeId(Long id, Integer offset, Integer limit) {
         return (List<VacationDTO>) TransactionUtil.doInTransaction(entityManager -> {
-            return VacationMapper.INSTANCE.collectionToDto(VacationRepository.getInstance().findByEmployeeId(id, entityManager));
+            return VacationMapper.INSTANCE.collectionToDto(VacationRepository.getInstance().findByEmployeeId(id, entityManager,offset,limit));
         });
     }
 

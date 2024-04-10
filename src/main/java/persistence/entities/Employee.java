@@ -2,7 +2,6 @@ package persistence.entities;
 
 
 import jakarta.persistence.*;
-import jakarta.ws.rs.DefaultValue;
 import lombok.*;
 import java.math.BigDecimal;
 import java.util.*;

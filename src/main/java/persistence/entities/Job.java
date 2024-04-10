@@ -2,6 +2,7 @@ package persistence.entities;
 
 
 import enums.JobTitle;
+import enums.ProjectStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

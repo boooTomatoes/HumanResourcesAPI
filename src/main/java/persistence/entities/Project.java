@@ -1,10 +1,11 @@
 package persistence.entities;
 
 
+import enums.ProjectStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +21,10 @@ public class Project extends BaseEntity {
     private String name;
     private String description;
     @Temporal(TemporalType.DATE)
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    @Temporal(TemporalType.DATE)
+    private LocalDate endDate;
+    private ProjectStatus status;
 
 
     @ManyToMany(mappedBy = "projects")
@@ -29,8 +32,8 @@ public class Project extends BaseEntity {
 
     @PrePersist
     public void setDefaultStartDate() {
-        if (startDate == null) {
-            startDate = new Date();
+        if (status == null) {
+            status = ProjectStatus.ACTIVE;
         }
     }
 }

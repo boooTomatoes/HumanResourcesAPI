@@ -14,7 +14,7 @@ public class VacationRepository extends GenericRepository<Vacation, Long>{
         return INSTANCE;
     }
 
-    public Collection<Vacation> findByEmployeeId(Long id, EntityManager entityManager) {
+    public Collection<Vacation> findByEmployeeId(Long id, EntityManager entityManager,Integer offset,Integer limit) {
         return entityManager.createQuery("SELECT v FROM Vacation v WHERE v.employee.id = :id", Vacation.class)
                 .setParameter("id", id)
                 .getResultList();

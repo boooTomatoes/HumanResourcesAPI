@@ -6,11 +6,22 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import persistence.dto.VacationDTO;
 import service.VacationService;
 
 @Path("/vacations")
 public class VacationController {
+
+    @Context
+    UriInfo uriInfo;
+
+    @GET
+    public Response getVacations(@DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("10") @QueryParam("limit") Integer limit) {
+
+        return Response.ok(VacationService.getInstance().findAllWithPagination(offset, limit)).build();
+
+    }
 
     @POST
     @Path("/{id}")
@@ -31,8 +42,8 @@ public class VacationController {
 
     @GET
     @Path("employee/{id}")
-    public Response getVacationsByEmployeeId(@PathParam("id") Long id) {
-        return Response.ok(VacationService.getInstance().findVacationsByEmployeeId(id)).build();
+    public Response getVacationsByEmployeeId(@PathParam("id") Long id,@DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("10") @QueryParam("limit") Integer limit) {
+        return Response.ok(VacationService.getInstance().findVacationsByEmployeeId(id,offset,limit)).build();
     }
 
 

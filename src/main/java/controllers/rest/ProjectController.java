@@ -11,14 +11,14 @@ import java.util.List;
 public class ProjectController {
 
     @GET
-    public Response getProjects() {
-        List<ProjectDTO> projectDTOList = ProjectService.getInstance().findAll();
+    public Response getProjects(@DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("10") @QueryParam("limit") Integer limit) {
+        List<ProjectDTO> projectDTOList = ProjectService.getInstance().findAllWithPagination(offset, limit);
         return Response.ok(projectDTOList).build();
     }
 
     @GET
     @Path("/{id}")
-    public Response getProjectById(Long id) {
+    public Response getProjectById(@PathParam("id") Long id) {
         ProjectDTO projectDTO = ProjectService.getInstance().findById(id);
         return Response.ok(projectDTO).build();
     }
@@ -41,6 +41,23 @@ public class ProjectController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Project does not exist!").build();
         }
     }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteProject(@PathParam("id") Long id) {
+        if(ProjectService.getInstance().deleteProject(id)) {
+            return Response.ok().entity("Project deleted!").build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Project does not exist!").build();
+        }
+    }
+
+    @GET
+    @Path("/{id}/employees")
+    public Response getEmployeesByProjectId(@PathParam("id") Long id) {
+        return Response.ok(ProjectService.getInstance().findEmployeesByProjectId(id)).build();
+    }
+
 
 
 }

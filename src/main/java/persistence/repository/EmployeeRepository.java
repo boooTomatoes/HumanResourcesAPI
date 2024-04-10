@@ -50,6 +50,13 @@ public class EmployeeRepository extends GenericRepository<Employee, Long>{
         }
     }
 
+    public List<Employee> getEmployeesWithPagination(int offset, int limit, EntityManager entityManager) {
+        return entityManager.createQuery("SELECT e FROM Employee e WHERE e.currentlyEmployed = true", Employee.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
     public Employee getEmployee(String username, String password, EntityManager entityManager) {
         return entityManager.createQuery("SELECT e FROM Employee e WHERE e.username = :username AND e.password = :password", Employee.class)
                 .setParameter("username", username)

@@ -16,6 +16,7 @@
         <jersey.version>4.0.0-M1</jersey.version>
         <war.mvn.plugin.version>3.4.0</war.mvn.plugin.version>
         <junit.version>5.10.0</junit.version>
+        <mockito.version>4.2.0</mockito.version>
         <url.tomcat>http://localhost:9191/manager/text</url.tomcat>
         <admin.username>admin1</admin.username>
         <admin.password>admin1</admin.password>
@@ -67,7 +68,7 @@
                     <username>${admin.username}</username>
                     <password>${admin.password}</password>
                     <url>${url.tomcat}</url>
-                    <path>/api</path>
+                    <path>/HumanResourcesAPI</path>
                 </configuration>
             </plugin>
         </plugins>
@@ -136,6 +137,12 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Lombok Dependency -->

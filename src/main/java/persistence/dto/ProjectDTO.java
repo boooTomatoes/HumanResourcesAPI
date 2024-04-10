@@ -1,11 +1,12 @@
 package persistence.dto;
 
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -15,6 +16,8 @@ public class ProjectDTO extends BaseDTO {
     private Long id;
     private String name;
     private String description;
-    private Date startDate;
-    private Date endDate;
+    @JsonbDateFormat("yyyy-MM-dd")
+    private LocalDate startDate;
+    @JsonbDateFormat("yyyy-MM-dd")
+    private LocalDate endDate;
 }

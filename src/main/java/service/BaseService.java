@@ -85,4 +85,11 @@ public class BaseService <ENTITY extends BaseEntity,DTO extends BaseDTO,ID> {
               throw new IllegalDeleteException("invalid delete operation on entity: " + e.getMessage());
          }
     }
+
+    public List<DTO> findAllWithPagination(int offset, int limit) {
+        return (List<DTO>) TransactionUtil.doInTransaction(entityManager -> {
+            List<ENTITY> entities = genericRepository.findAllWithPagination(offset,limit,entityManager);
+            return baseMapper.collectionToDto(entities);
+        });
+    }
 }

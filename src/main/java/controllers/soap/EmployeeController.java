@@ -1,5 +1,7 @@
 package controllers.soap;
 
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingType;
 import persistence.dto.DepartmentDTO;
 import persistence.dto.EmployeeDTO;
 import persistence.dto.ProjectDTO;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 @WebService
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
+@BindingType(value = jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class EmployeeController {
 
     @WebMethod
@@ -57,11 +61,10 @@ public class EmployeeController {
         EmployeeService.getInstance().update(employeeDTO);
     }
 
-    // Uncomment this if you want to enable delete operation
-    /*
+
     @WebMethod
     public void deleteEmployee(@WebParam(name = "id") Long id) {
-        EmployeeService.getInstance().delete(id);
+        EmployeeService.getInstance().deleteFromCurrent(id);
     }
-    */
+
 }

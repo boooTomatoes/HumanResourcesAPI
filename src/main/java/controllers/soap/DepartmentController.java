@@ -1,6 +1,7 @@
 
 package controllers.soap;
 
+import jakarta.xml.ws.BindingType;
 import persistence.dto.DepartmentDTO;
 import persistence.dto.EmployeeDTO;
 import service.DepartmentService;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
+@BindingType(value = jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class DepartmentController {
 
     @WebMethod
@@ -46,9 +48,8 @@ public class DepartmentController {
         DepartmentService.getInstance().update(departmentDTO);
     }
 
-    // Uncomment the following method if you want to support deleting departments
-    // @WebMethod
-    // public void deleteDepartment(@WebParam(name = "id") Long id) {
-    //     DepartmentService.getInstance().delete(id);
-    // }
+     @WebMethod
+     public void deleteDepartment(@WebParam(name = "id") Long id) {
+         DepartmentService.getInstance().delete(id);
+     }
 }

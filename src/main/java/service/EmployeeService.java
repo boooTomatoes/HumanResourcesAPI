@@ -84,6 +84,13 @@ public class EmployeeService extends BaseService<Employee, EmployeeDTO, Long> {
         });
     }
 
+    public List<EmployeeDTO> getEmployeesWithPagination(int offset, int limit) {
+        return TransactionUtil.doInTransaction(entityManager -> {
+            Collection<EmployeeDTO> employeeDTOS = EmployeeMapper.INSTANCE.collectionToDto(employeeRepository.getEmployeesWithPagination(offset, limit, entityManager));
+            return List.copyOf(employeeDTOS);
+        });
+    }
+
     public boolean deleteFromCurrent(Long id) {
        return TransactionUtil.doInTransaction(entityManager -> {
             Employee employee =employeeRepository.findById(id, entityManager);
