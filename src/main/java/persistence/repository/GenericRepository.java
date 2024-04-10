@@ -80,7 +80,7 @@ public class GenericRepository<T extends BaseEntity, ID> {
         }
     }
 
-    public List<T> findAllWithPagination(int pageNumber, int pageSize, EntityManager entityManager) {
+    public List<T> findAllWithPagination(int offset, int limit, EntityManager entityManager) {
         try {
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -88,8 +88,8 @@ public class GenericRepository<T extends BaseEntity, ID> {
             CriteriaQuery<T> all = cq.select(rootEntry);
 
             TypedQuery<T> allQuery = entityManager.createQuery(all);
-            allQuery.setFirstResult((pageNumber - 1) * pageSize);
-            allQuery.setMaxResults(pageSize);
+            allQuery.setFirstResult(offset);
+            allQuery.setMaxResults(limit);
 
             return allQuery.getResultList();
         } catch (Exception e) {

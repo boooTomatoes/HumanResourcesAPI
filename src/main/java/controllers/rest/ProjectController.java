@@ -12,6 +12,8 @@ public class ProjectController {
 
     @GET
     public Response getProjects(@DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("10") @QueryParam("limit") Integer limit) {
+        if(offset == null) offset = 0;
+        if(limit == null) limit = 10;
         List<ProjectDTO> projectDTOList = ProjectService.getInstance().findAllWithPagination(offset, limit);
         return Response.ok(projectDTOList).build();
     }
@@ -26,7 +28,7 @@ public class ProjectController {
     @POST
     public Response createProject(ProjectDTO projectDTO) {
         if(ProjectService.getInstance().save(projectDTO)) {
-            return Response.ok().entity("Project created!").build();
+            return Response.status(Response.Status.CREATED).entity("Project created!").build();
         } else {
             return Response.status(Response.Status.BAD_REQUEST).entity("Project already exists!").build();
         }
