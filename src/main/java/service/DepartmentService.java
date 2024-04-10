@@ -48,7 +48,10 @@ public class DepartmentService extends BaseService<Department, DepartmentDTO,Lon
             Department department = DepartmentRepository.getInstance().findById(id, entityManager);
             Employee employee = EmployeeRepository.getInstance().findById(employeeId, entityManager);
             department.setManager(employee);
+            employee.setManagedDepartment(department);
+            EmployeeRepository.getInstance().update(employee, entityManager);
            return DepartmentRepository.getInstance().update(department, entityManager);
+
         });
     }
 }
