@@ -13,6 +13,9 @@
                 implementation="controllers.soap.JobController"
                 url-pattern="/soap/jobController"/>
 
+    <endpoint name="vacationController"
+                implementation="controllers.soap.VacationController"
+                url-pattern="/soap/vacationController"/>
     <endpoint name="AttendanceController"
                 implementation="controllers.soap.AttendanceController"
                 url-pattern="/soap/attendanceController">
@@ -25,6 +28,7 @@
             </handler-chain>
         </handler-chains>
     </endpoint>
+
 
 
 
